@@ -1,0 +1,31 @@
+@page
+@model InventoryManagement.Web.Pages.ProductsModel
+
+<h2>Products</h2>
+
+<a class="btn btn-success mb-3" href="/Products/Edit">Add New</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model.Products)
+    {
+        <tr>
+            <td>@p.Name</td>
+            <td>@p.Quantity</td>
+            <td>@p.Price</td>
+            <td>
+                <a class="btn btn-sm btn-primary" href="/Products/Edit?id=@p.Id">Edit</a>
+                <a class="btn btn-sm btn-danger" href="/Products/Delete?id=@p.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

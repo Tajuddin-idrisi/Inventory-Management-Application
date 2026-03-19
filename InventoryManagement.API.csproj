@@ -1,10 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include=".vscode\launch.json" />
+  </ItemGroup>
+
+  <!-- Exclude the nested InventoryManagement.Web project files from this project to avoid duplicate assembly attributes -->
+  <ItemGroup>
+    <Compile Remove="InventoryManagement.Web\**\*.cs" />
+    <None Remove="InventoryManagement.Web\**\*" />
+    <Content Remove="InventoryManagement.Web\**\*" />
+    <EmbeddedResource Remove="InventoryManagement.Web\**\*" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.12" />

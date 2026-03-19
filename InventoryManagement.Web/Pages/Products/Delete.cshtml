@@ -1,0 +1,13 @@
+@page
+@model InventoryManagement.Web.Pages.Products.DeleteModel
+
+<h2>Delete Product</h2>
+
+<div>
+    <p>Are you sure you want to delete <strong>@Model.Product?.Name</strong>?</p>
+    <form method="post">
+        <input type="hidden" asp-for="Product.Id" />
+        <button class="btn btn-danger" type="submit">Delete</button>
+        <a class="btn btn-secondary" href="/Products">Cancel</a>
+    </form>
+</div>

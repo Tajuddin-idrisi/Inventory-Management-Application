@@ -63,8 +63,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        // Serve Swagger UI at application root
-        options.RoutePrefix = string.Empty;
+        // Serve Swagger UI at /swagger
+        options.RoutePrefix = "swagger";
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Inventory API V1");
     });
 }

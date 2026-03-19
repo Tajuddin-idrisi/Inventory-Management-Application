@@ -1,0 +1,15 @@
+@page
+@model InventoryManagement.Web.Pages.RegisterModel
+
+<h2>Register</h2>
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input class="form-control" asp-for="Username" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" asp-for="Password" />
+    </div>
+    <button class="btn btn-primary" type="submit">Register</button>
+</form>
