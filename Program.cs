@@ -1,9 +1,10 @@
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.EntityFrameworkCore;
 using InventoryManagement.API.Data;
 using InventoryManagement.API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +28,7 @@ else
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 // Configure JWT Authentication
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "ReplaceThisWithASecretKey12345";
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "MyVeryStrongSecretKey@1234567890SecureKeyForJWTAuth123";
 var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
 var issuer = builder.Configuration["Jwt:Issuer"];
 var audience = builder.Configuration["Jwt:Audience"];
@@ -47,10 +48,12 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = audience,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
-        ValidateLifetime = true
+        ValidateLifetime = true,
+        RoleClaimType = ClaimTypes.Role
     };
 });
 
+builder.Services.AddAuthorization();
 // Add Swagger/OpenAPI (Swashbuckle)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

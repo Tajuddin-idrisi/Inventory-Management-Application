@@ -38,7 +38,7 @@ namespace InventoryManagement.API.Controllers
         public async Task<IActionResult> Login([FromBody] User user)
         {
             var hash = ComputeSha256Hash(user.PasswordHash);
-            var existing = await _db.Users.FirstOrDefaultAsync(u => u.Username == user.Username && u.PasswordHash == hash);
+            var existing = await _db.Users.FirstOrDefaultAsync(u => u.Username == user.Username && u.PasswordHash == hash && u.Role == user.Role);
             if (existing == null)
                 return Unauthorized();
 

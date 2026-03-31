@@ -1,4 +1,4 @@
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
@@ -16,18 +16,23 @@ namespace InventoryManagement.API.Services
 
         public string GenerateToken(string username, string? role = null)
         {
-            var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? "ReplaceThisWithASecretKey12345");
+            var key = Encoding.UTF8.GetBytes(
+                _config["Jwt:Key"] ?? "MyVeryStrongSecretKey@1234567890SecureKeyForJWTAuth123");
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, username)
             };
 
+            // ✅ ADD ROLE ONLY ONCE
             if (!string.IsNullOrEmpty(role))
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            var creds = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+            var creds = new SigningCredentials(
+                new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                 issuer: _config["Jwt:Issuer"],
@@ -38,5 +43,6 @@ namespace InventoryManagement.API.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
     }
 }

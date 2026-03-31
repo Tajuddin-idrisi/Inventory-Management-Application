@@ -1,10 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
 using InventoryManagement.API.Data;
 using InventoryManagement.API.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.WebRequestMethods;
 
 namespace InventoryManagement.API.Controllers
 {
+    
     [ApiController]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
@@ -15,10 +18,11 @@ namespace InventoryManagement.API.Controllers
         {
             _db = db;
         }
-
+       
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            
             var products = await _db.Products.ToListAsync();
             return Ok(products);
         }
@@ -32,8 +36,10 @@ namespace InventoryManagement.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] Product product)
         {
+
             _db.Products.Add(product);
             await _db.SaveChangesAsync();
             return CreatedAtAction(nameof(Get), new { id = product.Id }, product);
